@@ -1,50 +1,56 @@
-import React,{useState} from 'react' 
-import { View, TextInput, StyleSheet, Button} from 'react-native'
+import React, { useState, useContext } from 'react';
+import { View, Text, TextInput, StyleSheet, Button } from 'react-native';
+import UsersContext from '../context/UsersContext';
 
+export default ({ route, navigation }) => {
+  const [user, setUser] = useState(route.params ? route.params : {});
+  const { dispatch } = useContext(UsersContext);
 
-export default ({route, navigation}) => {
-  const [user, setUser] = useState(route.params ? route.params : {} )
-  return(
+  return (
     <View style={style.form}>
       <Text>Nome</Text>
       <TextInput
         style={style.input}
-        onChangeText={name => setUser ({...user,name}) }
-        placeholder= "Informe o nome"
+        onChangeText={name => setUser({ ...user, name })}
+        placeholder="Informe o nome"
         value={user.name}
       />
       <Text>E-mail</Text>
       <TextInput
         style={style.input}
-        onChangeText={email => setUser ({...user,email}) }
-        placeholder= "Informe o E-mail"
+        onChangeText={email => setUser({ ...user, email })}
+        placeholder="Informe o E-mail"
         value={user.email}
       />
       <Text>URL do Avatar</Text>
       <TextInput
         style={style.input}
-        onChangeText={avatarUrl => setUser ({...user,avatarUrl}) }
-        placeholder= "Informe a URL do Avatar"
+        onChangeText={avatarUrl => setUser({ ...user, avatarUrl })}
+        placeholder="Informe a URL do Avatar"
         value={user.avatarUrl}
       />
       <Button
         title="Salvar"
-        onPress={() =>{
-          navigation.goBack()
+        onPress={() => {
+          dispatch({
+            type: user.id ? 'updateUser' : 'createUser',
+            payload: user,
+          });
+          navigation.goBack();
         }}
       />
-    </View>  
-  )
-}
+    </View>
+  );
+};
 
 const style = StyleSheet.create({
-  form:{
-    padding: 15
+  form: {
+    padding: 15,
   },
-  input:{
+  input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBotton: 20,
-  }
-})
+    marginBottom: 20, // Corrigido: era 'marginBotton'
+  },
+});

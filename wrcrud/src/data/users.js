@@ -1,7 +1,7 @@
 export default[
   {
     id: 1,
-    name: 'José Bittecourt',
+    name: 'José Pixar',
     email: 'jose@email.com',
     avatarUrl: 'https://cdn.pixabay.com/photo/2014/04/02/14/11/male-306408_640.png'
   },
